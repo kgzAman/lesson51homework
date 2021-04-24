@@ -1,24 +1,23 @@
 package com.aman.edu.homew51.Entities;
 
-import jdk.jfr.DataAmount;
-import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+import java.util.UUID;
 
 @Data
-@Document
+@Document(collation = "musics")
+@Builder
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@AllArgsConstructor
 public class Album {
 
-
     @Id
-    @Column(name = "_id")
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    protected String id;
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
 
-    @Column(name = "name")
+
     private String name;
     private Artist artist;
     private String year;
