@@ -22,5 +22,7 @@ public class Music {
 
     private Album album;
 
+    private Like like;
+
 
 }
