@@ -1,18 +1,26 @@
 package com.aman.edu.homew51.Entities;
 
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-public class Music {
-    @Id
+import java.util.UUID;
 
-    protected String id;
+@Data
+@Builder
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@AllArgsConstructor
+@Document(collation = "musics")
+public class Music {
+
+
+    @Id
+    @Builder.Default
+    private String id = UUID.randomUUID().toString();
 
     private String name;
 
     private Album album;
 
-    private Artist actor;
 
 }
