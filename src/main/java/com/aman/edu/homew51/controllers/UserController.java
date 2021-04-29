@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping(path = "/api/user")
 public class UserController {
@@ -33,4 +35,13 @@ public class UserController {
             return userIdDto;
     }
 
+    @PostMapping()
+     public Boolean isExist (@RequestBody String name){
+        return this.userService.checkIfExist(name);
+    }
+
+    @PostMapping()
+    public Optional<User> getByEmail(@RequestBody String email){
+        return this.userService.byEmail(email);
+    }
 }

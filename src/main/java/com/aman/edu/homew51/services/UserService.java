@@ -17,6 +17,15 @@ public class UserService {
        final Optional<User> byName= this.userRepositories.findByName(user.getUserName());
 
         return byName.orElseGet(() -> this.userRepositories.save(user));
-
     }
+
+    public Boolean checkIfExist(String email){
+        return userRepositories.existsByEAndEmail(email);
+    }
+
+    public Optional<User> byEmail(String email){
+        return userRepositories.findByEmail(email);
+    }
+
+
 }
