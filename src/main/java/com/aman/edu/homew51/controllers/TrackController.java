@@ -1,22 +1,39 @@
 package com.aman.edu.homew51.controllers;
 
-import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.aman.edu.homew51.dto.TrackDto;
+import com.aman.edu.homew51.entities.Track;
+import com.aman.edu.homew51.services.TrackService;
+import com.aman.edu.homew51.services.UserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/track")
 public class TrackController {
 
-    @GetMapping()
-    public List<TrackDto> getByMusician(@RequestParam String  name){
+    private final TrackService trackService;
+    private final UserService userService;
+    private  final ModelMapper modelMapper = new ModelMapper();
 
+    public TrackController(TrackService trackService, UserService userService) {
+        this.trackService = trackService;
+        this.userService = userService;
     }
 
-    @GetMapping
-    public
+    @GetMapping("/{userToken}/musician")
+    public List<TrackDto> getByExecutor(@RequestParam String name, @PathVariable String userToken){
+        return this.trackService.findByExecutor(name).stream()
+                .map(track -> modelMapper.map(track, TrackDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/track")
+    public List<TrackDto> getByTrack(@RequestParam String name) {
+        return this.trackService.getByTrack(name).stream()
+                .map(track -> modelMapper.map(track, TrackDto.class))
+                .collect(Collectors.toList());
+    }
 }

@@ -14,5 +14,8 @@ public class Track extends BaseEntity {
     @DBRef
     private Executor actor;
 
+    @DBRef
+    private Album album;
+
 }
 
