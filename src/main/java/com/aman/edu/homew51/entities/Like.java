@@ -1,23 +1,23 @@
 package com.aman.edu.homew51.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@EqualsAndHashCode
-@Document(collation = "tracks")
+import javax.persistence.Entity;
+
+@Builder
+@Entity
+@Document(collection = "likies")
 @NoArgsConstructor
-public class Track extends BaseEntity {
-    private String name ;
+public class Like {
 
     @DBRef
-    private Executor actor;
+    private User user;
 
     @DBRef
-    private Album album;
+    private Track track;
 
+    private Boolean negative = Boolean.FALSE;
 }
-
