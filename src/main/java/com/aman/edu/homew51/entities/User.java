@@ -1,7 +1,6 @@
 package com.aman.edu.homew51.entities;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,7 +23,6 @@ import java.util.UUID;
 @Entity
 public class User extends BaseEntity implements UserDetails {
 
-    @Id
     @Builder.Default
     private String id = UUID.randomUUID().toString();
 

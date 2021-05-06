@@ -10,9 +10,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode
 @Document(collation = "executors")
 @Entity
-public class Executor extends BaseEntity {
-
-    private String id;
+public class Executor extends BaseEntity{
     private String name;
 
 

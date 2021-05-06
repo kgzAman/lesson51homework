@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/like")
 public class LikeControllers {
     @PostMapping("/{userId}/{trackname}")
-    public void setLike(@PathVariable String userId, @PathVariable String trackname, @RequestParam(defaultValue="FALSE") Boolean negative){
+    public void setLike(@PathVariable String userId,
+                        @PathVariable String trackname,
+                        @RequestParam(defaultValue="FALSE")
+                                    Boolean negative){
     }
 }

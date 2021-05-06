@@ -1,11 +1,9 @@
 package com.aman.edu.homew51.controllers;
 
 import com.aman.edu.homew51.dto.TrackDto;
-import com.aman.edu.homew51.entities.Track;
 import com.aman.edu.homew51.services.TrackService;
 import com.aman.edu.homew51.services.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +16,8 @@ public class TrackController {
     private final TrackService trackService;
     private final UserService userService;
     private  final ModelMapper modelMapper = new ModelMapper();
-    @Autowired
     public TrackController(TrackService trackService, UserService userService) {
+
         this.trackService = trackService;
         this.userService = userService;
     }
