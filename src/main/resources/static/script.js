@@ -3,9 +3,8 @@ let user ={
     name: "Aman",
     email: "example@mail.com",
     password:"JsExample123",
-    isAuthorised: false,
+    isAuthorised: true,
 };
-
 
 let publication={
     id:"1",
@@ -13,10 +12,10 @@ let publication={
     description :"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
     date:"15.12.15",
     User :user,
-    Comment: comment[],
+    Like : likes=[],
+    Comment: comment=[],
     // создал обьект user в к класс publication
 }
-
 let comment={
     id: "1",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -24,8 +23,27 @@ let comment={
     // добавил обект comment в к класс publication
 }
 
-const publications = [];
+let Like ={
+    id:"1",
+    date:"",
+}
 
-function addPublication(pub1) {
-   addPublication(publications.push(pub1))
+let publications = [];
+
+function addPublication(publication) {
+    publications.push(publication);
+}
+
+
+function isNotAuthorised(user) {
+    user.isAuthorised=false;
+}
+
+function addLike(id) {
+    let pub1 = publications[id];
+   pub1.push(Like)
+}
+
+function removeLike(id) {
+    publications[id].pop();
 }
