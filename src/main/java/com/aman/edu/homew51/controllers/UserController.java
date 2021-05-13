@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
+    @PostMapping()
     public UserIdDto login(@RequestBody LoginUserIdDto userDto){
             User user = User.builder()
                     .userName(userDto.getName())
@@ -29,9 +29,10 @@ public class UserController {
             this.userService.save(user);
 
             final User logined = this.userService.save(user);
-        return UserIdDto.builder()
-                .token(logined.getId())
-                .build();
+            UserIdDto userIdDto = UserIdDto.builder()
+                    .token(logined.getId())
+                    .build();
+            return userIdDto;
     }
 
     @PostMapping()

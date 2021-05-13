@@ -1,6 +1,7 @@
 package com.aman.edu.homew51.entities;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,25 +21,25 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Document(collation = "users")
-@Entity
-public class User extends BaseEntity implements UserDetails {
 
-    @Builder.Default
-    private String id = UUID.randomUUID().toString();
+public class User implements UserDetails {
 
 
-    @Indexed
+    @Id
+    private String id;
+
+    private String name;
     private String email;
-    private String userName;
-
-
-    private String login;
     private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("FULL"));
     }
+
+
+    private String login;
+
 
     @Override
     public String getPassword() {

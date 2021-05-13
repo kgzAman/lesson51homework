@@ -3,6 +3,7 @@ package com.aman.edu.homew51.controllers;
 import com.aman.edu.homew51.dto.TrackDto;
 import com.aman.edu.homew51.services.TrackService;
 import com.aman.edu.homew51.services.UserService;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,16 +12,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "api/track")
+@AllArgsConstructor
 public class TrackController {
 
     private final TrackService trackService;
     private final UserService userService;
     private  final ModelMapper modelMapper = new ModelMapper();
-    public TrackController(TrackService trackService, UserService userService) {
 
-        this.trackService = trackService;
-        this.userService = userService;
-    }
 
     @GetMapping("/{userToken}/musician")
     public List<TrackDto> getByExecutor(@RequestParam String name, @PathVariable String userToken){

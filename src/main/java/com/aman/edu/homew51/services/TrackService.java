@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class TrackService {
 
 
@@ -20,7 +19,7 @@ public class TrackService {
 
     public List<Track> findByExecutor(String name){
         final List<Executor> executorsByName =this.executorService.getExecutorByName(name);
-        return this.trackRepositories.findByAAndActorIn(executorsByName);
+        return this.trackRepositories.findByActorAndActorIn(executorsByName);
     }
 
     public List<Track> getByTrack(String name){

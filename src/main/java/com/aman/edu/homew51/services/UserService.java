@@ -2,6 +2,7 @@ package com.aman.edu.homew51.services;
 
 import com.aman.edu.homew51.entities.User;
 import com.aman.edu.homew51.repositories.UserRepositories;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
+
 @Service
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepositories userRepositories;
