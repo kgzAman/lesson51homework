@@ -30,9 +30,9 @@ let Like ={
 
 let publications = [];
 
-function addPublication(publication) {
-    publications.push(publication);
-}
+// function addPublication(publication) {
+//     publications.push(publication);
+// }
 
 
 function isNotAuthorised(user) {
