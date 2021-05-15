@@ -51,3 +51,8 @@ function showSplashScreen() {
     document.getElementById('splash-screen').hidden = true;
     document.body.classList.add('no-scroll');
 };
+
+function hideSplashScreen() {
+    document.getElementById('page-splash').hidden = false;
+    document.body.classList.remove('no-scroll');
+};
