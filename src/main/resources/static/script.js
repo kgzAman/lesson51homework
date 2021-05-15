@@ -16,7 +16,7 @@ let publication={
     Comment: comment=[],
     // создал обьект user в к класс publication
 }
-let comment={
+let comment = {
     id: "1",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
     date:"01.12.16",
@@ -34,7 +34,6 @@ function addPublication(publication) {
     publications.push(publication);
 }
 
-
 function isNotAuthorised(user) {
     user.isAuthorised=false;
 }
@@ -47,3 +46,8 @@ function addLike(id) {
 function removeLike(id) {
     publications[id].pop();
 }
+
+function showSplashScreen() {
+    document.getElementById('splash-screen').hidden = true;
+    document.body.classList.add('no-scroll');
+};
