@@ -6,6 +6,12 @@ let user ={
     isAuthorised: true,
 };
 
+let comment = {
+    id: "1",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    date:"01.12.16",
+    // добавил обект comment в к класс publication
+}
 let publication={
     id:"1",
     Picture:"/picture.img" ,
@@ -15,12 +21,6 @@ let publication={
     Like : likes=[],
     Comment: comment=[],
     // создал обьект user в к класс publication
-}
-let comment = {
-    id: "1",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    date:"01.12.16",
-    // добавил обект comment в к класс publication
 }
 
 let Like ={
@@ -62,5 +62,16 @@ function createCommentElement(comment) {
     elem.innerHTML = comment;
     return  elem.innerHTML ;
 };
+
+function creatPostElement(publication) {
+    let elem = document.createElement('div');
+    elem.classList.add('test')
+    elem.innerHTML =
+        '<div>' +
+        '<img class="d-block w-100" src="' + "images/" + publication.image + '" alt="Post image">' +
+        '</div>'
+        return elem;
+}
+
 
 
