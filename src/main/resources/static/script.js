@@ -56,3 +56,11 @@ function hideSplashScreen() {
     document.getElementById('splash-screen').hidden = false;
     document.body.classList.remove('no-scroll');
 };
+
+function createCommentElement(comment) {
+    let elem = document.createElement('div');
+    elem.innerHTML = comment;
+    return  elem.innerHTML ;
+};
+
+
