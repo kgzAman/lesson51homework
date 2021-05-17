@@ -48,30 +48,41 @@ function removeLike(id) {
 }
 
 function showSplashScreen() {
-    document.getElementById('splash-screen').hidden = true;
+    document.getElementById('splashScreen').hidden = true;
     document.body.classList.add('no-scroll');
-};
+}
 
 function hideSplashScreen() {
-    document.getElementById('splash-screen').hidden = false;
+    document.getElementById('splashScreen').hidden = false;
     document.body.classList.remove('no-scroll');
-};
+}
 
 function createCommentElement(comment) {
     let elem = document.createElement('div');
     elem.innerHTML = comment;
     return  elem.innerHTML ;
-};
+}
 
 function creatPostElement(publication) {
     let elem = document.createElement('div');
-    elem.classList.add('test')
+    elem.classList.add('test-class')
     elem.innerHTML =
-        '<div>' +
-        '<img class="d-block w-100" src="' + "images/" + publication.image + '" alt="Post image">' +
+        '<div class="img">' +
+            '<img class="d-block w-100" src="'+ publication.image + '" alt="Post image">' +
+            '<p class="description">'+publication.description+'</p>'+
+            '<time class="time">'+publication.date+'</time>'+
+            '<div class="user">'+publication.User.name+'<br>'+
+                 publication.User.email+ '<br>'+
+                 publication.User.password+'' +
+            '</div>'+
         '</div>'
         return elem;
 }
+
+function addPost(postElement){
+    document.getElementsByClassName('post-container')[0].before(postElement)
+}
+
 
 
 

@@ -7,8 +7,28 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
-<body class="non-scroll">
+<body class="no-scroll">
+    <div class="screen" id="splashScreen" >
+    <form action="" method="post">
+    <div class="container">
+        <label for><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
 
+        <label for><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+
+        <button type="submit">Login</button>
+        <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+        <button type="button" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+</form>
+</div>
 <script src="script.js"></script>
 
 <section id="splash-screen" class="splash-screen">
