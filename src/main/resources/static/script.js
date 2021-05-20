@@ -47,13 +47,10 @@ function eventListener() {
     let img = document.getElementsByClassName('w-100')[0];
 
     img.addEventListener('dblclick', function () {
-        let likeHeart = document.createElement('<i class="fas position-absolute fa-heart"></i>')
         heart.classList.add('text-danger');
         heart.classList.add('fas');
         heart.classList.remove('far');
-        heart.
-
-    })
+    });
 
     bookmark.addEventListener('click', function () {
         if (bookmark.classList.contains('fas')) {
@@ -78,9 +75,6 @@ function eventListener() {
     })
 }
 
-function removeLike(id) {
-    publications[id].pop();
-}
 
 function showSplashScreen() {
     document.getElementById('splashScreen').hidden = true;
