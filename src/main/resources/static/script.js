@@ -55,6 +55,18 @@ function addLike() {
         }
     })
 }
+function bookmark() {
+        let bookmark = document.getElementsByClassName('fa-bookmark')[0]
+         bookmark.addEventListener('click', function () {
+        if (bookmark.classList.contains('fas')) {
+            bookmark.classList.remove('fas');
+            bookmark.classList.add('far');
+        } else {
+            bookmark.classList.remove('far');
+            bookmark.classList.add('fas');
+        }
+    })
+}
 
 function removeLike(id) {
     publications[id].pop();
@@ -99,6 +111,7 @@ function Post() {
     }
 }
 addLike();
+bookmark();
 
 
 
