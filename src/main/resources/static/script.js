@@ -1,31 +1,34 @@
-let user ={
-    id:"1",
+let user = {
+    id: "1",
     name: "Aman",
     email: "example@mail.com",
-    password:"JsExample123",
+    password: "JsExample123",
     isAuthorised: true,
 };
+
+class Publication {
+    constructor(id, Picture) {
+        this.id = id;
+        this.Picture = Picture;
+    }
+
+    // description :"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    // date:"15.12.15",
+    // User :user,
+    // Like : likes=[],
+    // Comment: comment=[],
+    // создал обьект user в к класс publication
+}
 
 let comment = {
     id: "1",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    date:"01.12.16",
+    date: "01.12.16",
     // добавил обект comment в к класс publication
 }
-let publication={
-    id:"1",
-    Picture:"/picture.img" ,
-    description :"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    date:"15.12.15",
-    User :user,
-    Like : likes=[],
-    Comment: comment=[],
-    // создал обьект user в к класс publication
-}
-
-let Like ={
-    id:"1",
-    date:"",
+let Like = {
+    id: "1",
+    date: "",
 }
 
 let publications = [];
@@ -35,12 +38,22 @@ function addPublication(publication) {
 }
 
 function isNotAuthorised(user) {
-    user.isAuthorised=false;
+    user.isAuthorised = false;
 }
 
-function addLike(id) {
-    let pub1 = publications[id];
-   pub1.push(Like)
+function addLike() {
+    let heart = document.getElementsByClassName('fa-heart')[0];
+    heart.addEventListener('click',function () {
+        if (heart.classList.contains('fas')) {
+            heart.classList.remove('fas');
+            heart.classList.remove('text-danger');
+            heart.classList.add('far');
+        } else {
+            heart.classList.remove('far');
+            heart.classList.add('text-danger');
+            heart.classList.add('fas');
+        }
+    })
 }
 
 function removeLike(id) {
@@ -60,28 +73,33 @@ function hideSplashScreen() {
 function createCommentElement(comment) {
     let elem = document.createElement('div');
     elem.innerHTML = comment;
-    return  elem.innerHTML ;
+    return elem.innerHTML;
 }
 
 function creatPostElement(publication) {
     let elem = document.createElement('div');
-    elem.classList.add('test-class')
     elem.innerHTML =
-        '<div class="img">' +
-            '<img class="d-block w-100" src="'+ publication.image + '" alt="Post image">' +
-            '<p class="description">'+publication.description+'</p>'+
-            '<time class="time">'+publication.date+'</time>'+
-            '<div class="user">'+publication.User.name+'<br>'+
-                 publication.User.email+ '<br>'+
-                 publication.User.password+'' +
-            '</div>'+
-        '</div>'
-        return elem;
+        `<div class="row justify-content-center">
+        <div class="col col-lg-7 posts-container" id="posts-cont">
+            <div id="1s" class="1s card my-3">
+        <img src="${publication.image}" class=" card-img-top picture" alt="Picture Publication ">
+           
+        </div>`
+    return elem;
 }
 
-function addPost(postElement){
-    document.getElementsByClassName('post-container')[0].before(postElement)
+function addPost() {
+    let posts = new Publication(1, "../img/1087200.png")
+    document.getElementsByClassName('posts-container')[0].append(creatPostElement(posts));
 }
+
+function Post() {
+    for (let i = 0; i < 1; i++) {
+        addPost()
+    }
+}
+addLike();
+
 
 
 

@@ -12,3 +12,23 @@
     line-height: 90vh;
     align-items: center;
 }
+
+.posts-container{
+    display: flex;
+    margin-top: 50px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.card-body{
+    height: 800px;
+    width: 1200px;
+    background-position: center !important;
+    background-size: cover !important;
+    margin: 0 10px 20px 10px;
+    cursor: pointer;
+    max-width: 100%;
+    position: relative;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.20);
+}
