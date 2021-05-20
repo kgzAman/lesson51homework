@@ -11,13 +11,6 @@ class Publication {
         this.id = id;
         this.Picture = Picture;
     }
-
-    // description :"Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    // date:"15.12.15",
-    // User :user,
-    // Like : likes=[],
-    // Comment: comment=[],
-    // создал обьект user в к класс publication
 }
 
 let comment = {
@@ -37,9 +30,9 @@ function addPublication(publication) {
     publications.push(publication);
 }
 
-function isNotAuthorised(user) {
-    user.isAuthorised = false;
-}
+// function isNotAuthorised(user) {
+//     user.isAuthorised = false;
+// }
 
 function eventListener() {
     let heart = document.getElementsByClassName('fa-heart')[0];
