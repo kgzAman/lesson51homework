@@ -41,8 +41,30 @@ function isNotAuthorised(user) {
     user.isAuthorised = false;
 }
 
-function addLike() {
+function eventListener() {
     let heart = document.getElementsByClassName('fa-heart')[0];
+    let bookmark = document.getElementsByClassName('fa-bookmark')[0];
+    let img = document.getElementsByClassName('w-100')[0];
+
+    img.addEventListener('dblclick', function () {
+        let likeHeart = document.createElement('<i class="fas position-absolute fa-heart"></i>')
+        heart.classList.add('text-danger');
+        heart.classList.add('fas');
+        heart.classList.remove('far');
+        heart.
+
+    })
+
+    bookmark.addEventListener('click', function () {
+        if (bookmark.classList.contains('fas')) {
+            bookmark.classList.remove('fas');
+            bookmark.classList.add('far');
+        } else {
+            bookmark.classList.remove('far');
+            bookmark.classList.add('fas');
+        }
+    })
+
     heart.addEventListener('click',function () {
         if (heart.classList.contains('fas')) {
             heart.classList.remove('fas');
@@ -52,18 +74,6 @@ function addLike() {
             heart.classList.remove('far');
             heart.classList.add('text-danger');
             heart.classList.add('fas');
-        }
-    })
-}
-function bookmark() {
-        let bookmark = document.getElementsByClassName('fa-bookmark')[0]
-         bookmark.addEventListener('click', function () {
-        if (bookmark.classList.contains('fas')) {
-            bookmark.classList.remove('fas');
-            bookmark.classList.add('far');
-        } else {
-            bookmark.classList.remove('far');
-            bookmark.classList.add('fas');
         }
     })
 }
@@ -110,9 +120,7 @@ function Post() {
         addPost()
     }
 }
-addLike();
-bookmark();
-
+eventListener();
 
 
 
