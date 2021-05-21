@@ -6,11 +6,9 @@ let user = {
     isAuthorised: true,
 };
 
-class Publication {
-    constructor(id, Picture) {
-        this.id = id;
-        this.Picture = Picture;
-    }
+function Pub(id,picture ) {
+    this.id = id;
+    this.picture = picture;
 }
 
 let comment = {
@@ -30,20 +28,36 @@ function addPublication(publication) {
     publications.push(publication);
 }
 
-// function isNotAuthorised(user) {
-//     user.isAuthorised = false;
-// }
+function isNotAuthorised(user) {
+    user.isAuthorised = false;
+}
+let like = document.getElementsByClassName('like')[0].hidden=true
 
 function eventListener() {
-    let heart = document.getElementsByClassName('fa-heart')[0];
+    let heart = document.getElementsByClassName('like1')[0];
     let bookmark = document.getElementsByClassName('fa-bookmark')[0];
-    let img = document.getElementsByClassName('w-100')[0];
+    let img = document.getElementsByClassName('like-heart')[0];
+
+    const btn = document.getElementsByClassName('btn')[0];
+    const bckSplsh = document.getElementsByClassName('bts')[0];
+
+
+    bckSplsh.addEventListener('click',function () {
+            hideSplashScreen();
+    })
+    btn.addEventListener('click', function () {
+        showSplashScreen();
+    });
 
     img.addEventListener('dblclick', function () {
+     like = document.getElementsByClassName('like')[0].hidden=false;
+        setTimeout(() => (
+            like = document.getElementsByClassName('like')[0].hidden=true), 500)
         heart.classList.add('text-danger');
         heart.classList.add('fas');
         heart.classList.remove('far');
-    });
+    })
+    ;
 
     bookmark.addEventListener('click', function () {
         if (bookmark.classList.contains('fas')) {
@@ -70,13 +84,14 @@ function eventListener() {
 
 
 function showSplashScreen() {
-    document.getElementById('splashScreen').hidden = true;
-    document.body.classList.add('no-scroll');
+    document.getElementsByClassName("container")[0].style.visibility = null;
+    document.getElementsByClassName("splash-Screen")[0].style.visibility= "hidden" ;
 }
 
+
 function hideSplashScreen() {
-    document.getElementById('splashScreen').hidden = false;
-    document.body.classList.remove('no-scroll');
+    document.getElementsByClassName("container")[0].style.visibility =  "hidden";
+    document.getElementsByClassName("splash-Screen")[0].style.visibility= null;
 }
 
 function createCommentElement(comment) {
@@ -91,24 +106,21 @@ function creatPostElement(publication) {
         `<div class="row justify-content-center">
         <div class="col col-lg-7 posts-container" id="posts-cont">
             <div id="1s" class="1s card my-3">
-        <img src="${publication.image}" class=" card-img-top picture" alt="Picture Publication ">
-           
+        <img src="${publication.picture}" class=" card-img-top picture" alt="Picture Publication ">   
         </div>`
+    eventListener();
     return elem;
 }
 
-function addPost() {
-    let posts = new Publication(1, "../img/1087200.png")
+function addPost(posts) {
+    // let posts = new Pub(1,"../img/1087200.png")
     document.getElementsByClassName('posts-container')[0].append(creatPostElement(posts));
 }
 
-function Post() {
+function Post(post) {
     for (let i = 0; i < 1; i++) {
-        addPost()
+        addPost(post)
     }
 }
 eventListener();
-
-
-
 
