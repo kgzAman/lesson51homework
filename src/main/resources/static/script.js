@@ -57,11 +57,12 @@ function eventListener(post) {
         e.preventDefault();
         const form = e.target;
         const data = new FormData(form);
+        addCommentsFrom(data)
+        submit.reset();
         fetch('http://localgost:8080/api/comment', {
             method: 'POST',
             body: data
         })
-
     })
 
 
@@ -72,12 +73,13 @@ function eventListener(post) {
         console.log("sdf")
         console.log(Object.fromEntries(data))
         addPostsFrom(data)
+        submit.reset();
         fetch('http://localgost:8080/api/post', {
             method: 'POST',
             body: data
         })
-
     });
+
 
     com.addEventListener('click', function () {
             document.getElementsByClassName('comnt')[0].hidden = document.getElementsByClassName('comnt')[0].hidden === false;
@@ -141,6 +143,20 @@ function getId(data) {
 
 function getEmail(data) {
     return data.email;
+}
+function addComment(commentElem) {
+    let pId = commentElem.getElementsByTagName('input')[0].value;
+    let postsCont = document.getElementById("posts-cont");
+    let p = postsCont.getElementsByClassName(pId)[0];
+    p.getElementsByClassName("com")[0].append(commentElem);
+}
+
+function addCommentsFrom(data) {
+    let i = data.length;
+    for(let j = 0; j < i; j++) {
+        let c = new Comment(data[j].userComent, data[j].commentFor, data[j].comment, data[j].userEmail);
+        addComment(createCommentElement(c));
+    }
 }
 
 function addPostsFrom(data) {
