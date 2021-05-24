@@ -55,6 +55,12 @@ function eventListener(post) {
 
     addCommit.addEventListener('submit', function (e) {
         e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        fetch('http://localgost:8080/api/comment', {
+            method: 'POST',
+            body: data
+        })
 
     })
 
@@ -65,7 +71,12 @@ function eventListener(post) {
         const data = new FormData(form);
         console.log("sdf")
         console.log(Object.fromEntries(data))
-        addPostsFrom(data)
+        // addPostsFrom(data)
+        // fetch('http://localgost:8080/api/post', {
+        //     method: 'POST',
+        //     body: data
+        // })
+
     });
 
     com.addEventListener('click', function () {
