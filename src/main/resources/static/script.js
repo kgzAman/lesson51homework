@@ -71,11 +71,11 @@ function eventListener(post) {
         const data = new FormData(form);
         console.log("sdf")
         console.log(Object.fromEntries(data))
-        // addPostsFrom(data)
-        // fetch('http://localgost:8080/api/post', {
-        //     method: 'POST',
-        //     body: data
-        // })
+        addPostsFrom(data)
+        fetch('http://localgost:8080/api/post', {
+            method: 'POST',
+            body: data
+        })
 
     });
 
