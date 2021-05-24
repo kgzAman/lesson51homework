@@ -6,9 +6,23 @@ let user = {
     isAuthorised: true,
 };
 
-function Pub(id,picture ) {
-    this.id = id;
-    this.picture = picture;
+class Post {
+    constructor(image, description,) {
+            this.id = id,
+            this.userId = userId,
+            this.image = image,
+            this.description = description;
+            this.likes = 0;
+    }
+};
+
+class Comment {
+    constructor(commentator, commentFor, comment, cEmail) {
+        this.comentator = commentator,
+            this.commentFor = commentFor,
+            this.comment = comment,
+            this.cEmail = cEmail
+    }
 }
 
 let comment = {
@@ -31,25 +45,43 @@ function addPublication(publication) {
 function isNotAuthorised(user) {
     user.isAuthorised = false;
 }
-let like = document.getElementsByClassName('like')[0].hidden=true
 
-function eventListener() {
-    let heart = document.getElementsByClassName('like1')[0];
-    let bookmark = document.getElementsByClassName('fa-bookmark')[0];
-    let img = document.getElementsByClassName('like-heart')[0];
+function eventListener(post) {
+    let heart = post.getElementsByClassName('like1')[0];
+    let bookmark = post.getElementsByClassName('fa-bookmark')[0];
+    let img = post.getElementsByClassName('like-heart')[0];
+    let btn = post.getElementsByClassName('sing-in')[0];
+    let bckSplash = post.getElementsByClassName('back')[0];
+    let submit = post.getElementsByClassName('post-form')[0];
+    let like = post.getElementsByClassName('like')[0].hidden=true
+    let com = post.getElementsByClassName('fa-comment')[0];
 
-    const btn = document.getElementsByClassName('btn')[0];
-    const bckSplsh = document.getElementsByClassName('bts')[0];
+    function loginHandler(e){
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        console.log("sdf")
+        console.log(Object.fromEntries(data))
+
+        addPostsFrom(data)
+    }
+
+    submit.addEventListener('submit', loginHandler);
 
 
-    bckSplsh.addEventListener('click',function () {
-            hideSplashScreen();
+    com.addEventListener('click', function () {
+            document.getElementsByClassName('comnt')[0].hidden = document.getElementsByClassName('comnt')[0].hidden === false;
     })
-    btn.addEventListener('click', function () {
-        showSplashScreen();
-    });
 
+    bckSplash.addEventListener('click',function () {
+          showSplashScreen()
+    })
+
+    btn.addEventListener('click', function () {
+        hideSplashScreen()
+    });
     img.addEventListener('dblclick', function () {
+
      like = document.getElementsByClassName('like')[0].hidden=false;
         setTimeout(() => (
             like = document.getElementsByClassName('like')[0].hidden=true), 500)
@@ -84,43 +116,74 @@ function eventListener() {
 
 
 function showSplashScreen() {
-    document.getElementsByClassName("container")[0].style.visibility = null;
-    document.getElementsByClassName("splash-Screen")[0].style.visibility= "hidden" ;
+    document.getElementsByClassName("container")[0].style.visibility = "hidden";
+    document.getElementsByClassName("splash-Screen")[0].style.visibility= null ;
 }
 
-
 function hideSplashScreen() {
-    document.getElementsByClassName("container")[0].style.visibility =  "hidden";
-    document.getElementsByClassName("splash-Screen")[0].style.visibility= null;
+    document.getElementsByClassName("container")[0].style.visibility =  null;
+    document.getElementsByClassName("splash-Screen")[0].style.visibility= "hidden";
+}
+
+function getId(data) {
+    return data.id;
+}
+
+function getEmail(data) {
+    return data.email;
+}
+
+function addPostsFrom(data) {
+    let i = data.length;
+    for (let j = 0; j < i; j++) {
+        let p = new Post(data[j].id, data[j].user, data[j].image, data[j].description);
+        addPost(creatPostElement(p));
+    }
 }
 
 function createCommentElement(comment) {
     let elem = document.createElement('div');
-    elem.innerHTML = comment;
-    return elem.innerHTML;
-}
-
-function creatPostElement(publication) {
-    let elem = document.createElement('div');
-    elem.innerHTML =
-        `<div class="row justify-content-center">
-        <div class="col col-lg-7 posts-container" id="posts-cont">
-            <div id="1s" class="1s card my-3">
-        <img src="${publication.picture}" class=" card-img-top picture" alt="Picture Publication ">   
-        </div>`
-    eventListener();
+    elem.innerHTML = `<a href="#" class="muted"> comment.cEmail</a>
+        <p>comment.comment </p> 
+        <input name="forPost" type="hidden" value="' + comment.commentFor + '">`;
     return elem;
 }
 
-function addPost(posts) {
-    // let posts = new Pub(1,"../img/1087200.png")
-    document.getElementsByClassName('posts-container')[0].append(creatPostElement(posts));
+function creatPostElement(post) {
+    let elem = document.createElement('div');
+    elem.innerHTML =
+        `<div id="1s" class="1s card my-2">
+                        <div class="d-flex justify-content-around">
+                                <div class="like-heart">
+    <img src="${post.image}" class=" card-img-top picture" alt="Picture Publication ">                                    <span class="h1 mx-2 text-danger like">
+                                      <i class="fas fa-heart"></i>
+                                    </span>
+                                </div>
+                        </div>
+                        <div class="px-4 py-3">
+
+                            <div class="d-flex justify-content-around">
+                        <span class="h1 mx-2 muted">
+                          <i class="far fa-heart like1"></i>
+                        </span>
+                                <span class="h1 mx-2 muted">
+                          <i class="far fa-comment"></i>
+                        </span>
+                                <span class="mx-auto"></span>
+                                <span class="h1 mx-2 muted">
+                          <i class="far fa-bookmark"></i>
+                        </span>
+                            </div>
+                        </div>
+                    </div>`
+    // eventListener(elem)
+    //
+    return elem;
 }
 
-function Post(post) {
-    for (let i = 0; i < 1; i++) {
-        addPost(post)
-    }
+function addPost(postElem) {
+    document.getElementsByClassName('posts-container')[0].append(postElem);
 }
-eventListener();
+
+eventListener(document.getElementsByClassName('no-scroll')[0]);
 

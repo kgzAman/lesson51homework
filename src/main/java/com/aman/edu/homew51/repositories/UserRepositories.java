@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 public interface UserRepositories extends MongoRepository<User,String> {
     Optional<User> findByName(String userName);
-    Boolean existsByEAndEmail(String email);
+    Boolean existsByAndEmail(String email);
     Optional<User> findByEmail(String email);
     Optional<User> getByEmail(String email);
 }

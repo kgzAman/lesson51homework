@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Boolean checkIfExist(String email){
-        return userRepositories.existsByEAndEmail(email);
+        return userRepositories.existsByAndEmail(email);
     }
 
     public Optional<User> byEmail(String email){

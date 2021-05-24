@@ -8,45 +8,66 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
-<body>
+<body class="no-scroll">
         <div class ="splash-Screen" >
-            <button class="btn btn-primary justify-content-around btn" id="sign-in">Войти</button>
+            <button class="btn btn-primary justify-content-around sing-in" id="sign-in">Войти</button>
         </div>
-<div class="container" style="visibility: hidden">
-    <div class="row justify-content-center">
-        <div class="col col-lg-7 posts-container" id="posts-cont">
-            <div id="1s" class="1s card my-2">
-                <div class="d-flex justify-content-around">
-                        <div class="like-heart">
-                             <img class="d-block w-100" src="https://images2.alphacoders.com/108/1087200.jpg" alt="Post image" >
-                            <span class="h1 mx-2 text-danger like">
-				              <i class="fas fa-heart"></i>
-				            </span>
+        <div class="container" style="visibility: hidden">
+            <div class="row justify-content-center">
+                <div class="col col-lg-7 posts-container">
+                    <div id="1s" class="1s card my-2">
+                        <div class="d-flex justify-content-around">
+                                <div class="like-heart">
+                                     <img class="d-block w-100" src="https://images2.alphacoders.com/108/1087200.jpg" alt="Post image" >
+                                    <span class="h1 mx-2 text-danger like">
+                                      <i class="fas fa-heart"></i>
+                                    </span>
+                                </div>
                         </div>
-                </div>
-                <div class="px-4 py-3">
+                        <div class="px-4 py-3">
 
-                    <div class="d-flex justify-content-around">
-				<span class="h1 mx-2 muted">
-				  <i class="far fa-heart like1"></i>
-				</span>
+                            <div class="d-flex justify-content-around">
                         <span class="h1 mx-2 muted">
-				  <i class="far fa-comment"></i>
-				</span>
-                        <span class="mx-auto"></span>
-                        <span class="h1 mx-2 muted">
-				  <i class="far fa-bookmark"></i>
-				</span>
+                          <i class="far fa-heart like1"></i>
+                        </span>
+                                <span class="h1 mx-2 muted">
+                          <i class="far fa-comment"></i>
+                        </span>
+                                <span class="mx-auto"></span>
+                                <span class="h1 mx-2 muted">
+                          <i class="far fa-bookmark"></i>
+                        </span>
+                            </div>
+                            <div class="com-upload-form comnt" id="coment" hidden>
+                                <form id="com-form" class="com-form">
+                                    <input type="hidden" name="postId" value="1s"/>
+                                    <textarea placeholder="Comment" name="comment"> </textarea>
+                                    <br>
+                                    <button type="button" id="comment">Add comment</button>
+                                </form>
+                        </div>
+                        </div>
+                            </div>
+                    <div class ="splashScreen" >
+                        <button class="btn btn-primary justify-content-around back">Back to splash-Screen</button>
                     </div>
                 </div>
             </div>
-            <div class ="splashSreen" >
-                <button class="btn btn-primary justify-content-around bts">Back to splash-Screen</button>
+            <div class="row justify-content-center submit-load" id="submit-load">
+                <div class="col col-lg-7  addImg">
+                    <form class="mt-2 post-form" id="post-form" name="post-form">
+                        <div class="custom-file">
+                            <label for="img"></label>
+                            <input type="file" class="btn btn-outline-primary" id="img" name="img" accept="image/*">
+                        </div>
+                        <div class="form-group mt-4">
+                            <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                         </div>
+                            <button type="submit" class="btn btn-outline-primary submit">Submit</button><br>
+                 </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
     <script src="script.js"></script>
 </body>
 
