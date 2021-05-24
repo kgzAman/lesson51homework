@@ -17,20 +17,14 @@ class Post {
 };
 
 class Comment {
-    constructor(commentator, commentFor, comment, cEmail) {
-        this.comentator = commentator,
-            this.commentFor = commentFor,
-            this.comment = comment,
-            this.cEmail = cEmail
+    constructor(userComent, commentFor, comment, cEmail) {
+            this.userComent = userComent
+            this.commentFor = commentFor
+            this.comment = comment
+            this.cEmail = cEmail;
     }
 }
 
-let comment = {
-    id: "1",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    date: "01.12.16",
-    // добавил обект comment в к класс publication
-}
 let Like = {
     id: "1",
     date: "",
@@ -55,19 +49,24 @@ function eventListener(post) {
     let submit = post.getElementsByClassName('post-form')[0];
     let like = post.getElementsByClassName('like')[0].hidden=true
     let com = post.getElementsByClassName('fa-comment')[0];
+    let addCommit = post.getElementsByClassName('btnSub')[0];
 
-    function loginHandler(e){
+
+
+    addCommit.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+    })
+
+
+    submit.addEventListener('submit', function (e){
         e.preventDefault();
         const form = e.target;
         const data = new FormData(form);
         console.log("sdf")
         console.log(Object.fromEntries(data))
-
         addPostsFrom(data)
-    }
-
-    submit.addEventListener('submit', loginHandler);
-
+    });
 
     com.addEventListener('click', function () {
             document.getElementsByClassName('comnt')[0].hidden = document.getElementsByClassName('comnt')[0].hidden === false;
@@ -176,8 +175,7 @@ function creatPostElement(post) {
                             </div>
                         </div>
                     </div>`
-    // eventListener(elem)
-    //
+    eventListener(elem)
     return elem;
 }
 
