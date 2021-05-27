@@ -198,8 +198,8 @@ function addPostsFromDB(data) {
     }
 }
 
-// let comment = document.getElementById('com-form');
-// addEvListenerToCommentButton(comment);
+let comment = document.getElementById('com-form');
+addEvListenerToCommentButton(comment);
 
 function addComment(commentElem) {
     let pId = commentElem.getElementsByTagName('input')[0].value;
