@@ -208,13 +208,13 @@ function addComment(commentElem) {
     document.getElementsByClassName("com")[0].append(commentElem);
 }
 
-getComments().then(res => res.json()).then(data => addCommentsFromDB(data));
+getComments().then(res => res.json()).then(data => addCommentsFrom(data));
 
-function addCommentsFromDB(data) {
+function addCommentsFrom(data) {
     let i = data.length;
     for(let j = 0; j < i; j++) {
-        let c = new Comment(data[j].commentator, data[j].commentFor, data[j].comment);
-        addComment(createCommentElement(c));
+        let a = new Comment(data[j].commentator, data[j].commentFor, data[j].comment);
+        addComment(createCommentElement(a));
     }
 }
 
@@ -226,16 +226,16 @@ function createCommentElement(comment) {
     return elem;
 };
 
-function addEvListenerToCommentButton(fo) {
-    let butt = fo.getElementsByTagName('button')[0];
-    butt.addEventListener('click', async function () {
+function addEvListenerToCommentButton(elem) {
+    let button = elem.getElementsByTagName('button')[0];
+    button.addEventListener('click', async function () {
         let data = new FormData(fo);
         await fetch('https://jsonplaceholder.typicode.com/comments', {
-            method: 'GET',
+            method: 'POST',
             body: data
         }).then(r => r.json()).then(data => console.log(data));
-        let c = new Comment(data.get("postId"), data.get("comment"));
-        addComment(createCommentElement(c));
+        let post = new Comment(data.get("postId"), data.get("comment"));
+        addComment(createCommentElement(post));
         document.getElementById('comFor-' + c.commentFor).hidden = true;
     });
 }
