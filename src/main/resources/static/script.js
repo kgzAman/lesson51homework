@@ -133,22 +133,25 @@ async function getComments() {
 
 function creatPostElement(post) {
     let elem = document.createElement('div');
+    elem.classList.add('card');
+    elem.classList.add('my-3');
+    elem.classList.add(post.id);
     elem.id=post.id
     elem.innerHTML =
         '<div id="1s" class="1s card my-2">' +
-                        '<div class="d-flex justify-content-around">'+
-                                '<div class="like-heart">'+
-    '<img src="${post.image}" class=" card-img-top picture" alt="Picture Publication ">'+
-                      '<span class="h1 mx-2 text-danger like">'+
-                                      '<i class="fas fa-heart"></i>'+
-                                   ' </span>'+
-                                '</div>'+
-                       ' </div>'+
-                       ' <div class="px-4 py-3">'+
-                         '   <div class="d-flex justify-content-around">'+
-                       ' <span class="h1 mx-2 muted">'+
-                        '  <i class="far fa-heart like1"></i>'+
-                       ' </span>'+
+        '<div class="d-flex justify-content-around">'+
+        '<div class="like-heart">'+
+        '<img src="${post.image}" class=" card-img-top picture" alt="Picture Publication ">'+
+        '<span class="h1 mx-2 text-danger like">'+
+        '<i class="fas fa-heart"></i>'+
+        ' </span>'+
+        '</div>'+
+        '</div>'+
+        '<div class="px-4 py-3">'+
+        '<div class="d-flex justify-content-around">'+
+        '<span class="h1 mx-2 muted">'+
+        '<i class="far fa-heart like1"></i>'+
+        ' </span>'+
         '<span class="h1 mx-2 muted">' +
         '<i class="far fa-comment"></i>' +
         '</span>' +
@@ -175,7 +178,7 @@ function creatPostElement(post) {
                         '</div>'+
                     '</div>'
     eventListener(elem);
-    // addEvListenerToCommentButton(elem.getElementsByClassName("com-form")[0])
+    addEvListenerToCommentButton(elem.getElementsByClassName("com-form")[0]);
 
     return elem;
 }
@@ -186,11 +189,11 @@ function addPost(postElem) {
 
 eventListener(document.getElementsByClassName('no-scroll')[0]);
 
-getPosts().then(res => res.json()).then(data => addPostsFromDB(data));
+getPosts().then(res => res.json()).then(data => addPostsFrom(data));
 function getPosts() {
     return fetch('https://jsonplaceholder.typicode.com/posts');
 }
-function addPostsFromDB(data) {
+function addPostsFrom(data) {
     let i = data.length;
     for (let j = 0; j < i; j++) {
         let p = new Post(data[j].id, data[j].user, data[j].image, data[j].description);
@@ -202,24 +205,21 @@ let comment = document.getElementById('com-form');
 addEvListenerToCommentButton(comment);
 
 function addComment(commentElem) {
-    let pId = commentElem.getElementsByTagName('input')[0].value;
-    let postsCont = document.getElementById("posts-cont");
-    let p = postsCont.getElementsByClassName(pId)[0];
-    p.getElementsByClassName("com")[0].append(commentElem);
+    document.getElementsByClassName("com")[0].append(commentElem);
 }
+
 getComments().then(res => res.json()).then(data => addCommentsFromDB(data));
+
 function addCommentsFromDB(data) {
     let i = data.length;
     for(let j = 0; j < i; j++) {
-        let c = new Comment(data[j].commentator, data[j].commentFor, data[j].comment, data[j].userEmail);
+        let c = new Comment(data[j].commentator, data[j].commentFor, data[j].comment);
         addComment(createCommentElement(c));
     }
 }
 
 function createCommentElement(comment) {
     let elem = document.createElement('div');
-    elem.classList.add('py-2');
-    elem.classList.add('pl-3');
     elem.innerHTML = '<a href="#" class="muted"/ >' +
         '<p/' + comment.comment + '>' +
         '<input name="forPost" type="hidden" value="' + comment.commentFor + '">';
@@ -231,7 +231,7 @@ function addEvListenerToCommentButton(fo) {
     butt.addEventListener('click', async function () {
         let data = new FormData(fo);
         await fetch('https://jsonplaceholder.typicode.com/comments', {
-            method: 'POST',
+            method: 'GET',
             body: data
         }).then(r => r.json()).then(data => console.log(data));
         let c = new Comment(data.get("postId"), data.get("comment"));
