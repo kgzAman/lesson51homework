@@ -58,10 +58,13 @@ function submit() {
         console.log("sdf")
         addPostsFrom(Object.fromEntries(data))
         submit.reset();
-        // fetch('http://localgost:8080/api/post', {
-        //     method: 'POST',
-        //     body: data
-        // })
+        fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            body: data
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+        });
     });
 }
 
@@ -78,7 +81,7 @@ function eventListener(post) {
 
 
     com.addEventListener('click', function () {
-        document.getElementById('comFor-' +id).hidden = document.getElementById('comFor-' + id).hidden === false;
+        document.getElementById('comments-' +id).hidden = document.getElementById('comments-' + id).hidden === false;
     })
 
 
@@ -126,12 +129,8 @@ function hideSplashScreen() {
     document.getElementsByClassName("splash-Screen")[0].style.visibility= "hidden";
 }
 
-async function getComments() {
-    return await fetch('https://jsonplaceholder.typicode.com/comments');
-}
-
-
 function creatPostElement(post) {
+
     let elem = document.createElement('div');
     elem.classList.add('card');
     elem.classList.add('my-3');
@@ -141,7 +140,7 @@ function creatPostElement(post) {
         '<div id="1s" class="1s card my-2">' +
         '<div class="d-flex justify-content-around">'+
         '<div class="like-heart">'+
-        '<img src="${post.image}" class=" card-img-top picture" alt="Picture Publication ">'+
+        `<img src="${post.url}" class=" card-img-top picture" alt="Picture Publication ">`+
         '<span class="h1 mx-2 text-danger like">'+
         '<i class="fas fa-heart"></i>'+
         ' </span>'+
@@ -161,7 +160,7 @@ function creatPostElement(post) {
         '</span>' +
         '</div>' +
         '<hr>' +
-        '<div class="com-upload-form" id="comFor-' + post.id+ '" + hidden>' +
+        '<div class="com-upload-form" id="comments-' + post.id+ '" + hidden>' +
         '<form class="com-form">' +
         '<input type="hidden" name="postId" value="' + post.id+ '">' +
         '<textarea placeholder="Comment" name="comment"> </textarea>' +
@@ -170,7 +169,7 @@ function creatPostElement(post) {
         '</form>' +
         '</div>' +
         '<div>' +
-        '<p>' + post.description + '</p>' +
+        '<p>' + post.title + '</p>' +
         '</div>' +
         '<hr>' +
         '<div id="comments" class="com">' +
@@ -179,6 +178,7 @@ function creatPostElement(post) {
                     '</div>'
     eventListener(elem);
     addEvListenerToCommentButton(elem.getElementsByClassName("com-form")[0]);
+
 
     return elem;
 }
@@ -189,53 +189,71 @@ function addPost(postElem) {
 
 eventListener(document.getElementsByClassName('no-scroll')[0]);
 
-getPosts().then(res => res.json()).then(data => addPostsFrom(data));
-function getPosts() {
-    return fetch('https://jsonplaceholder.typicode.com/posts');
-}
+
 function addPostsFrom(data) {
     let i = data.length;
     for (let j = 0; j < i; j++) {
-        let p = new Post(data[j].id, data[j].user, data[j].image, data[j].description);
+        let p = new Post(data[j].id, data[j].user, data[j].url, data[j].title);
         addPost(creatPostElement(p));
     }
 }
 
-let comment = document.getElementById('com-form');
-addEvListenerToCommentButton(comment);
+// let comment = document.getElementById('com-form');
+// addEvListenerToCommentButton(comment);
 
 function addComment(commentElem) {
-    document.getElementsByClassName("com")[0].append(commentElem);
+    document.getElementsByClassName("com-upload-form")[0].append(commentElem);
 }
 
-getComments().then(res => res.json()).then(data => addCommentsFrom(data));
-
-function addCommentsFrom(data) {
-    let i = data.length;
-    for(let j = 0; j < i; j++) {
-        let a = new Comment(data[j].commentator, data[j].commentFor, data[j].comment);
-        addComment(createCommentElement(a));
-    }
-}
+// function addCommentsFrom(data) {
+//     let i = data.length;
+//     for(let j = 0; j < i; j++) {
+//         let a = new Comment(data[j].commentator, data[j].commentFor, data[j].comment);
+//         addComment(createCommentElement(a));
+//     }
+// }
 
 function createCommentElement(comment) {
     let elem = document.createElement('div');
-    elem.innerHTML = '<a href="#" class="muted"/ >' +
-        '<p/' + comment.comment + '>' +
-        '<input name="forPost" type="hidden" value="' + comment.commentFor + '">';
+    elem.innerHTML =
+        '<p>'+comment.body+'</p>'
     return elem;
-};
+}
 
-function addEvListenerToCommentButton(elem) {
-    let button = elem.getElementsByTagName('button')[0];
-    button.addEventListener('click', async function () {
+function addEvListenerToCommentButton(fo) {
+    let butt = fo.getElementsByTagName('button')[0];
+    butt.addEventListener('click', async function () {
         let data = new FormData(fo);
+        console.log("test")
         await fetch('https://jsonplaceholder.typicode.com/comments', {
             method: 'POST',
             body: data
         }).then(r => r.json()).then(data => console.log(data));
-        let post = new Comment(data.get("postId"), data.get("comment"));
-        addComment(createCommentElement(post));
-        document.getElementById('comFor-' + c.commentFor).hidden = true;
+        let c = new Comment(data.get("userId"), data.get("postId"), data.get("comment"), data.get("userEmail"));
+        addComment(createCommentElement(c));
+        document.getElementById('comments-' + c.commentFor).hidden = true;
+        // window.location.href = BASE_URL;
     });
 }
+
+//     let comments = document.getElementById('comments');
+// async function getComments() {
+//     let response = await  fetch('https://jsonplaceholder.typicode.com/comments')
+//     let content = await  response.json();
+//      for (let i = 0; i <content.length ; i++) {
+//          comments.append(createCommentElement(content[i]));
+//     }
+// }
+        let list = document.getElementsByClassName('posts-container')[0];
+async function getPosts() {
+
+    let posts = await  fetch('https://jsonplaceholder.typicode.com/posts')
+    let PostContent = await  posts.json()
+    for (let i = 0; i <PostContent.length ; i++) {
+        list.append(creatPostElement(PostContent[i]))
+        // console.log(list.append(comments))
+    }
+
+}
+getPosts()
+// getComments();
