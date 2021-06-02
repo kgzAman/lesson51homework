@@ -6,6 +6,18 @@ let user = {
     isAuthorised: true,
 };
 
+window.addEventListener('load', function () {
+    if (trySessionUser() === null) {
+        showSplashScreen();
+    } else {
+        hideSplashScreen();
+    }
+})
+function trySessionUser() {
+    const userAsJSON = localStorage.getItem('user');
+    return JSON.parse(userAsJSON);
+}
+
 class Post {
     constructor(id, userId, image, description) {
         this.id = id,
@@ -39,27 +51,80 @@ function isNotAuthorised(user) {
     user.isAuthorised = false;
 }
 submit()
+
+
+function updateRootPage() {
+    console.log("LS USER: " + localStorage.getItem('user'));
+    if (localStorage.getItem('user') == null){
+    } else {
+        fetchAuthorised(BASE_URL ).then(res => {
+            if (res.ok) {
+                hideSplashScreen();
+            } else {
+                showSplashScreen();
+            }
+        });
+    }
+}
+
+function restoreUser() {
+    const userAsJSON = localStorage.getItem('user');
+    return JSON.parse(userAsJSON);
+}
+
+function saveUser(user) {
+    const userAsJSON = JSON.stringify(user)
+    localStorage.setItem('user', userAsJSON);
+}
+function updateOptions(options) {
+    const update = { ...options };
+    update.mode = 'cors';
+    update.headers = { ... options.headers };
+    update.headers['Content-Type'] = 'application/json';
+    const user = restoreUser();
+    if(user) {
+        update.headers['Authorization'] = 'Basic ' + btoa(user.username + ':' + user.password);
+    }
+    return update;
+}
+function fetchAuthorised(url, options) {
+    const settings = options || {}
+    return fetch(url, updateOptions(settings));
+}
+
 function submit() {
-    let bckSplash = document.getElementsByClassName('back')[0];
+    let bckSplash = document.getElementById('log-out')
     let submit = document.getElementsByClassName('post-form')[0]
-    let btn = document.getElementsByClassName('sing-in')[0];
+    let btn = document.getElementsByClassName('login-in')[0];
 
-
-    bckSplash.addEventListener('click',function () {
-        showSplashScreen()
+    bckSplash.addEventListener('click', function () {
+        localStorage.clear();
+        window.location.href = BASE_URL;
     })
-    btn.addEventListener('click', function () {
-        hideSplashScreen()
-    });
+
+    btn.addEventListener('submit',function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const userFormData = new FormData(form);
+            let user = Object.fromEntries(userFormData);
+            const userAsJSON = JSON.stringify(user)
+            saveUser(userAsJSON)
+            updateRootPage();
+           let i = document.getElementById('log-out');
+           document.createElement('div')
+        }
+    );
+
     submit.addEventListener('submit', function (e){
         e.preventDefault();
         const form = e.target;
         const data = new FormData(form);
         console.log("sdf")
-        addPostsFrom(Object.fromEntries(data))
+        createCommentElement(Object.fromEntries(data))
         submit.reset();
-        fetch('https://jsonplaceholder.typicode.com/posts', {
+        fetch('https://localhost:8080/posts', {
             method: 'POST',
+            cors: 'no-cors',
             body: data
         }).then(function(response) {
             return response.json();
@@ -81,7 +146,7 @@ function eventListener(post) {
 
 
     com.addEventListener('click', function () {
-        document.getElementById('comments-' +id).hidden = document.getElementById('comments-' + id).hidden === false;
+        document.getElementById('comFor-' +id).hidden = document.getElementById('comFor-' + id).hidden === false;
     })
 
 
@@ -160,7 +225,7 @@ function creatPostElement(post) {
         '</span>' +
         '</div>' +
         '<hr>' +
-        '<div class="com-upload-form" id="comments-' + post.id+ '" + hidden>' +
+        '<div class="com-upload-form" id="comFor-' + post.id+ '" + hidden>'+
         '<form class="com-form">' +
         '<input type="hidden" name="postId" value="' + post.id+ '">' +
         '<textarea placeholder="Comment" name="comment"> </textarea>' +
@@ -169,6 +234,7 @@ function creatPostElement(post) {
         '</form>' +
         '</div>' +
         '<div>' +
+        // '<img className="img-fluid" src={post.url}/>'+
         '<p>' + post.title + '</p>' +
         '</div>' +
         '<hr>' +
@@ -178,40 +244,19 @@ function creatPostElement(post) {
                     '</div>'
     eventListener(elem);
     addEvListenerToCommentButton(elem.getElementsByClassName("com-form")[0]);
+    getComments(post)
 
 
     return elem;
 }
+addEvListenerToCommentButton(document.getElementsByClassName("com-form")[0])
 
-function addPost(postElem) {
-    document.getElementsByClassName('posts-container')[0].append(postElem);
-}
 
 eventListener(document.getElementsByClassName('no-scroll')[0]);
 
-
-function addPostsFrom(data) {
-    let i = data.length;
-    for (let j = 0; j < i; j++) {
-        let p = new Post(data[j].id, data[j].user, data[j].url, data[j].title);
-        addPost(creatPostElement(p));
-    }
+function addComment(c) {
+    document.getElementById('comFor-'+c.commentFor);
 }
-
-// let comment = document.getElementById('com-form');
-// addEvListenerToCommentButton(comment);
-
-function addComment(commentElem) {
-    document.getElementsByClassName("com-upload-form")[0].append(commentElem);
-}
-
-// function addCommentsFrom(data) {
-//     let i = data.length;
-//     for(let j = 0; j < i; j++) {
-//         let a = new Comment(data[j].commentator, data[j].commentFor, data[j].comment);
-//         addComment(createCommentElement(a));
-//     }
-// }
 
 function createCommentElement(comment) {
     let elem = document.createElement('div');
@@ -229,31 +274,31 @@ function addEvListenerToCommentButton(fo) {
             method: 'POST',
             body: data
         }).then(r => r.json()).then(data => console.log(data));
-        let c = new Comment(data.get("userId"), data.get("postId"), data.get("comment"), data.get("userEmail"));
+        let c = new Comment(data.get("id"), data.get("postId"), data.get("body"), data.get("email"));
         addComment(createCommentElement(c));
-        document.getElementById('comments-' + c.commentFor).hidden = true;
-        // window.location.href = BASE_URL;
+        document.getElementById('comFor-' + c.commentFor).hidden = true;
+        fo.reset()
     });
 }
 
-//     let comments = document.getElementById('comments');
-// async function getComments() {
-//     let response = await  fetch('https://jsonplaceholder.typicode.com/comments')
-//     let content = await  response.json();
-//      for (let i = 0; i <content.length ; i++) {
-//          comments.append(createCommentElement(content[i]));
-//     }
-// }
-        let list = document.getElementsByClassName('posts-container')[0];
 async function getPosts() {
-
+    let list = document.getElementsByClassName('posts-container')[0];
     let posts = await  fetch('https://jsonplaceholder.typicode.com/posts')
     let PostContent = await  posts.json()
     for (let i = 0; i <PostContent.length ; i++) {
         list.append(creatPostElement(PostContent[i]))
-        // console.log(list.append(comments))
     }
+}
 
+async function getComments(post) {
+         let CommentFF = await fetch('https://jsonplaceholder.typicode.com/comments');
+         let contentComment = await CommentFF.json()
+    for (let i = 0; i <contentComment.length ; i++) {
+        if(post.id===contentComment[i].postId) {
+            document.getElementById('comFor-' + post.id).append(createCommentElement(contentComment[i]))
+        }
+    }
 }
 getPosts()
-// getComments();
+
+
