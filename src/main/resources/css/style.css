@@ -146,3 +146,8 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+.titleText{
+    color: blue;
+    text-transform: uppercase;
+    text-align: center;
+}

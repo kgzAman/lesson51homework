@@ -53,11 +53,12 @@ function isNotAuthorised(user) {
 submit()
 
 
+
 function updateRootPage() {
     console.log("LS USER: " + localStorage.getItem('user'));
     if (localStorage.getItem('user') == null){
     } else {
-        fetchAuthorised(BASE_URL ).then(res => {
+        fetchAuthorised('localhost:8092').then(res => {
             if (res.ok) {
                 hideSplashScreen();
             } else {
@@ -72,11 +73,10 @@ function restoreUser() {
     return JSON.parse(userAsJSON);
 }
 
-function saveUser(user) {
-    const userAsJSON = JSON.stringify(user)
-    localStorage.setItem('user', userAsJSON);
+function saveUserToStorage(user) {
+      localStorage.setItem('user', JSON.stringify(user));
 }
-function updateOptions(options) {
+function authOptions(options) {
     const update = { ...options };
     update.mode = 'cors';
     update.headers = { ... options.headers };
@@ -87,11 +87,23 @@ function updateOptions(options) {
     }
     return update;
 }
+
 function fetchAuthorised(url, options) {
     const settings = options || {}
-    return fetch(url, updateOptions(settings));
+    return fetch(url, authOptions(settings));
+}
+async function onLoginHandler(e) {
+    e.preventDefault();
+    const form = e.target;
+    const userFormData = new FormData(form);
+    const user = Object.fromEntries(userFormData);
+    console.log(getUserFromStorage)
+    await fetchAuthorised(BASE_URL + 'user/info', authOptions)
+    saveUserToStorage(user);
+    updateRootPage();
 }
 
+const BASE_URL = "http://localhost:8092";
 function submit() {
     let bckSplash = document.getElementById('log-out')
     let submit = document.getElementsByClassName('post-form')[0]
@@ -99,7 +111,7 @@ function submit() {
 
     bckSplash.addEventListener('click', function () {
         localStorage.clear();
-        window.location.href = BASE_URL;
+        window.location.href = 'localhost:8092';
     })
 
     btn.addEventListener('submit',function (e) {
@@ -197,8 +209,6 @@ function hideSplashScreen() {
 function creatPostElement(post) {
 
     let elem = document.createElement('div');
-    elem.classList.add('card');
-    elem.classList.add('my-3');
     elem.classList.add(post.id);
     elem.id=post.id
     elem.innerHTML =
@@ -233,9 +243,9 @@ function creatPostElement(post) {
         '<button type="button" >comment</button>' +
         '</form>' +
         '</div>' +
-        '<div>' +
+        '<div class="titleText">' +
         // '<img className="img-fluid" src={post.url}/>'+
-        '<p>' + post.title + '</p>' +
+        '<p> ' + post.title + '</p>' +
         '</div>' +
         '<hr>' +
         '<div id="comments" class="com">' +
@@ -243,13 +253,12 @@ function creatPostElement(post) {
                         '</div>'+
                     '</div>'
     eventListener(elem);
-    addEvListenerToCommentButton(elem.getElementsByClassName("com-form")[0]);
-    getComments(post)
+    addEvListenerForCommentButton(elem.getElementsByClassName("com-form")[0]);
+    getCommentsFromServer(post)
 
 
     return elem;
 }
-addEvListenerToCommentButton(document.getElementsByClassName("com-form")[0])
 
 
 eventListener(document.getElementsByClassName('no-scroll')[0]);
@@ -261,27 +270,30 @@ function addComment(c) {
 function createCommentElement(comment) {
     let elem = document.createElement('div');
     elem.innerHTML =
-        '<p>'+comment.body+'</p>'
+        '<div class="pb-3">'+comment.email+' :'+'</div>'+
+        '<p>'+comment.body+'</p>'+
+        '<hr>'
+
     return elem;
 }
 
-function addEvListenerToCommentButton(fo) {
-    let butt = fo.getElementsByTagName('button')[0];
+function addEvListenerForCommentButton(com) {
+    let butt = com.getElementsByTagName('button')[0];
     butt.addEventListener('click', async function () {
-        let data = new FormData(fo);
+        let data = new FormData(com);
         console.log("test")
         await fetch('https://jsonplaceholder.typicode.com/comments', {
             method: 'POST',
             body: data
         }).then(r => r.json()).then(data => console.log(data));
-        let c = new Comment(data.get("id"), data.get("postId"), data.get("body"), data.get("email"));
-        addComment(createCommentElement(c));
-        document.getElementById('comFor-' + c.commentFor).hidden = true;
-        fo.reset()
+        let comment = new Comment(data.get("id"), data.get("postId"), data.get("body"), data.get("email"));
+        addComment(createCommentElement(comment));
+        document.getElementById('comFor-' + comment.commentFor).hidden = true;
+        com.reset()
     });
 }
 
-async function getPosts() {
+async function getPostsFromServer() {
     let list = document.getElementsByClassName('posts-container')[0];
     let posts = await  fetch('https://jsonplaceholder.typicode.com/posts')
     let PostContent = await  posts.json()
@@ -290,7 +302,7 @@ async function getPosts() {
     }
 }
 
-async function getComments(post) {
+async function getCommentsFromServer(post) {
          let CommentFF = await fetch('https://jsonplaceholder.typicode.com/comments');
          let contentComment = await CommentFF.json()
     for (let i = 0; i <contentComment.length ; i++) {
@@ -299,6 +311,6 @@ async function getComments(post) {
         }
     }
 }
-getPosts()
+getPostsFromServer()
 
 

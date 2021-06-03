@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @AllArgsConstructor
@@ -25,6 +26,10 @@ public class UserService implements UserDetailsService {
             users.add(UserDto.from(user));
         }
         return users;
+    }
+
+    public UserDto addUser(User user) {
+        return UserDto.from(userRepository.save(User.createUser(user.getName(), user.getUsername(), user.getEmail(), user.getNoEncodePassword())));
     }
 
     @Override
@@ -55,4 +60,10 @@ public class UserService implements UserDetailsService {
             return this.userRepository.findAll();
     }
 
+    public User getUser() {
+        Random r = new Random();
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(u -> users.add(u));
+        return users.get(r.nextInt(users.size()));
+    }
 }

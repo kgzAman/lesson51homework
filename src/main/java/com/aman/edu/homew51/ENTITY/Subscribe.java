@@ -29,7 +29,7 @@ public class Subscribe {
     private LocalDate date;
 
 
-    public static Subscribe createSubscription(User user, User toUser, LocalDate localDate) {
+    public static Subscribe createSubscribe(User user, User toUser, LocalDate localDate) {
         Subscribe Subscribe = new Subscribe();
         Subscribe.setUser(user);
         Subscribe.setToUser(toUser);
