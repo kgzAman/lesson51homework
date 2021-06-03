@@ -76,17 +76,17 @@ function restoreUser() {
 function saveUserToStorage(user) {
       localStorage.setItem('user', JSON.stringify(user));
 }
-// function authOptions(options) {
-//     const update = { ...options };
-//     update.mode = 'cors';
-//     update.headers = { ... options.headers };
-//     update.headers['Content-Type'] = 'application/json';
-//     const user = restoreUser();
-//     if(user) {
-//         update.headers['Authorization'] = 'Basic ' + btoa(user.username + ':' + user.password);
-//     }
-//     return update;
-// }
+function authOptions(options) {
+    const update = { ...options };
+    update.mode = 'cors';
+    update.headers = { ... options.headers };
+    update.headers['Content-Type'] = 'application/json';
+    const user = restoreUser();
+    if(user) {
+        update.headers['Authorization'] = 'Basic ' + btoa(user.username + ':' + user.password);
+    }
+    return update;
+}
 
 function fetchAuthorised(url, options) {
     const settings = options || {}
@@ -108,6 +108,8 @@ function submit() {
     let bckSplash = document.getElementById('log-out')
     let submit = document.getElementsByClassName('post-form')[0]
     let btn = document.getElementsByClassName('login-in')[0];
+    let loginForm = document.getElementById('login-form');
+    loginForm.addEventListener('submit', onLoginHandler);
 
     bckSplash.addEventListener('click', function () {
         localStorage.clear();
