@@ -68,25 +68,25 @@ function updateRootPage() {
     }
 }
 
-// function restoreUser() {
-//     const userAsJSON = localStorage.getItem('user');
-//     return JSON.parse(userAsJSON);
-// }
+function restoreUser() {
+    const userAsJSON = localStorage.getItem('user');
+    return JSON.parse(userAsJSON);
+}
 
 function saveUserToStorage(user) {
       localStorage.setItem('user', JSON.stringify(user));
 }
-function authOptions(options) {
-    const update = { ...options };
-    update.mode = 'cors';
-    update.headers = { ... options.headers };
-    update.headers['Content-Type'] = 'application/json';
-    const user = restoreUser();
-    if(user) {
-        update.headers['Authorization'] = 'Basic ' + btoa(user.username + ':' + user.password);
-    }
-    return update;
-}
+// function authOptions(options) {
+//     const update = { ...options };
+//     update.mode = 'cors';
+//     update.headers = { ... options.headers };
+//     update.headers['Content-Type'] = 'application/json';
+//     const user = restoreUser();
+//     if(user) {
+//         update.headers['Authorization'] = 'Basic ' + btoa(user.username + ':' + user.password);
+//     }
+//     return update;
+// }
 
 function fetchAuthorised(url, options) {
     const settings = options || {}
