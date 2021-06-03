@@ -68,10 +68,10 @@ function updateRootPage() {
     }
 }
 
-function restoreUser() {
-    const userAsJSON = localStorage.getItem('user');
-    return JSON.parse(userAsJSON);
-}
+// function restoreUser() {
+//     const userAsJSON = localStorage.getItem('user');
+//     return JSON.parse(userAsJSON);
+// }
 
 function saveUserToStorage(user) {
       localStorage.setItem('user', JSON.stringify(user));
